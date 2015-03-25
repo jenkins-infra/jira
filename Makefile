@@ -14,12 +14,12 @@ restoredb:
 
 stopjira:
 	(sudo docker kill jira; sudo docker rm jira) || true
-	rm build/jira.docker || true
+	sudo rm build/jira.cid || true
 
 build/jira.cid: build/jira.docker
 	# start JIRA
 	sudo docker rm jira || true
-	sudo docker run --name jira --cidfile=$@ --link mariadb:db -p 8080:8080 -e DATABASE_URL=mysql://jira:raji@192.168.1.95/jiradb jenkinsinfra/jira
+	sudo docker run --name jira --cidfile=$@ --link mariadb:db -p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
 
 build/jira.docker: Dockerfile launch.bash build
