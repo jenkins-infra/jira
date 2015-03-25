@@ -16,6 +16,16 @@ RUN mv /srv/jira/base/conf/server.xml /srv/jira/base/conf/server-backup.xml
 ENV CONTEXT_PATH ROOT
 ADD launch.bash /launch
 
+# Install Java. According to https://confluence.atlassian.com/display/JIRA050/Supported+Platforms
+# JIRA 5.0.6 only runs on Java6 and not Java7
+RUN \
+  echo oracle-java6-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
+  add-apt-repository -y ppa:webupd8team/java && \
+  apt-get update && \
+  apt-get install -y oracle-java6-installer && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /var/cache/oracle-jdk6-installer
+
 # Launching Jira
 
 WORKDIR /srv/jira
