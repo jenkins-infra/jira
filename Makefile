@@ -13,7 +13,8 @@ restoredb:
 	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
 stopjira:
-	rm build/jira.docker
+	(sudo docker kill jira; sudo docker rm jira) || true
+	rm build/jira.docker || true
 
 build/jira.cid: build/jira.docker
 	# start JIRA
@@ -21,6 +22,6 @@ build/jira.cid: build/jira.docker
 	sudo docker run --name jira --cidfile=$@ --link mariadb:db -p 8080:8080 -e DATABASE_URL=mysql://jira:raji@192.168.1.95/jiradb jenkinsinfra/jira
 
 
-build/jira.docker: Dockerfile launch.bash
+build/jira.docker: Dockerfile launch.bash build
 	sudo docker build -t jenkinsinfra/jira .
 	touch $@
