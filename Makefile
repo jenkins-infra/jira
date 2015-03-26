@@ -1,5 +1,6 @@
 startjira: stopjira build/jira.cid
 buildjira: build/jira.docker
+startldap: build/ldap.cid
 
 build:
 	mkdir build
@@ -11,6 +12,14 @@ startdb:
 restoredb:
 	# restore dump from DB
 	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
+
+build/ldap.cid:
+	sudo docker run \
+			--cidfile=$@ \
+            -e LDAP_DOMAIN=jenkins-ci.org \
+            -e LDAP_ORGANISATION="Jenkins" \
+            -e LDAP_ROOTPASS=s3cr3t \
+            -p 9389:389 nickstenning/slapd
 
 stopjira:
 	(sudo docker kill jira; sudo docker rm jira) || true
