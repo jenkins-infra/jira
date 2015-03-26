@@ -47,6 +47,7 @@ build/jira.cid: build/jira.docker
 	sudo docker run --name jira --cidfile=$@ \
 		--link mariadb:db \
 		--link ldap:cucumber.jenkins-ci.org \
+		-v `pwd`/data:/srv/jira/home \
 		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
 
@@ -57,3 +58,8 @@ build/jira.docker: Dockerfile launch.bash build
 build/ldap.docker: ldap/Dockerfile
 	sudo docker build -t jenkinsinfra/ldap ldap
 	touch $@
+
+data:
+	# extract dataset
+	mkdir data
+	cd data && tar xvzf ../backup.fs.gz
