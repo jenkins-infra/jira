@@ -19,4 +19,4 @@ then go to `http://localhost:8080/secure/admin/IndexAdmin.jspa` to perform re-in
 At this point your JIRA is up & running, and you should be able to navigate around.
 
 ## TODO
-
+* conf/server.xml needs some further tweaking given that there's a frontend reverse proxy
