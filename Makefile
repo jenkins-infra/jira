@@ -21,6 +21,8 @@ startdb:
 restoredb:
 	# restore dump from DB
 	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
+	# tweak database for test
+	cat tweak.sql | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
 build/ldap.cid: build
 	@sudo docker rm ldap || true
