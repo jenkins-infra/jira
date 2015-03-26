@@ -1,6 +1,10 @@
 startjira: stopjira build/jira.cid
 buildjira: build/jira.docker
+buildldap: build/ldap.docker
 startldap: build/ldap.cid
+
+clean:
+	rm -rf build
 
 build:
 	mkdir build
@@ -13,13 +17,18 @@ restoredb:
 	# restore dump from DB
 	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
-build/ldap.cid:
+build/ldap.cid: build
 	sudo docker run \
 			--cidfile=$@ \
+			--name ldap \
             -e LDAP_DOMAIN=jenkins-ci.org \
             -e LDAP_ORGANISATION="Jenkins" \
             -e LDAP_ROOTPASS=s3cr3t \
-            -p 9389:389 nickstenning/slapd
+            -p 9389:389 jenkinsinfra/ldap
+
+restoreldap: build/ldap.cid
+	sudo docker exec $(cat build/ldap.cid) slapadd \
+		-h localhost -p 389 -c -x -D cn=admin,dc=mycorp,dc=com -W -f
 
 stopjira:
 	(sudo docker kill jira; sudo docker rm jira) || true
@@ -33,4 +42,8 @@ build/jira.cid: build/jira.docker
 
 build/jira.docker: Dockerfile launch.bash build
 	sudo docker build -t jenkinsinfra/jira .
+	touch $@
+
+build/ldap.docker: ldap/Dockerfile
+	sudo docker build -t jenkinsinfra/ldap ldap
 	touch $@
