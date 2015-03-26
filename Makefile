@@ -23,6 +23,7 @@ restoredb:
 	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
 build/ldap.cid: build
+	@sudo docker rm ldap || true
 	sudo docker run \
 			--cidfile=$@ \
 			--name ldap \
@@ -32,8 +33,7 @@ build/ldap.cid: build
             -p 9389:389 jenkinsinfra/ldap
 
 restoreldap: build/ldap.cid
-	sudo docker exec $(cat build/ldap.cid) slapadd \
-		-h localhost -p 389 -c -x -D cn=admin,dc=mycorp,dc=com -W -f
+	cat ldap/data.ldif | sudo docker exec -i `cat build/ldap.cid` ldapadd -H ldap://localhost -x -D cn=admin,dc=jenkins-ci,dc=org -w s3cr3t
 
 stopjira:
 	(sudo docker kill jira; sudo docker rm jira) || true
@@ -41,7 +41,7 @@ stopjira:
 
 build/jira.cid: build/jira.docker
 	# start JIRA
-	sudo docker rm jira || true
+	@sudo docker rm jira || true
 	sudo docker run --name jira --cidfile=$@ --link mariadb:db -p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
 
