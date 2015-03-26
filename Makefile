@@ -11,7 +11,12 @@ build:
 	
 startdb:
 	# start a database instance
-	sudo docker run --name mariadb -p 3306:3306 -e MYSQL_ROOT_PASSWORD=s3cr3t -e MYSQL_USER=jira -e MYSQL_PASSWORD=raji -e MYSQL_DATABASE=jiradb -d mariadb
+	sudo docker run --name mariadb -d -p 3306:3306 \
+		-e MYSQL_ROOT_PASSWORD=s3cr3t \
+		-e MYSQL_USER=jira \
+		-e MYSQL_PASSWORD=raji \
+		-e MYSQL_DATABASE=jiradb \
+		mariadb
     
 restoredb:
 	# restore dump from DB
