@@ -42,7 +42,10 @@ stopjira:
 build/jira.cid: build/jira.docker
 	# start JIRA
 	@sudo docker rm jira || true
-	sudo docker run --name jira --cidfile=$@ --link mariadb:db -p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
+	sudo docker run --name jira --cidfile=$@ \
+		--link mariadb:db \
+		--link ldap:cucumber.jenkins-ci.org \
+		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
 
 build/jira.docker: Dockerfile launch.bash build
