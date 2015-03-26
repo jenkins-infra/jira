@@ -51,8 +51,8 @@ build/jira.cid: build/jira.docker
 		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
 
-build/jira.docker: Dockerfile launch.bash build
-	sudo docker build -t jenkinsinfra/jira .
+build/jira.docker: jira/Dockerfile jira/launch.bash
+	sudo docker build -t jenkinsinfra/jira jira
 	touch $@
 
 build/ldap.docker: ldap/Dockerfile
