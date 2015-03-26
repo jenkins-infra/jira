@@ -1,2 +1,4 @@
 backup.db.gz
+backup.fs.gz
+data
 build
