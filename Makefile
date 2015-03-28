@@ -25,7 +25,7 @@ restoredb:
 
 build/ldap.cid: build
 	@sudo docker rm ldap || true
-	sudo docker run \
+	sudo docker run -i -t \
 			--cidfile=$@ \
 			--name ldap \
             -e LDAP_DOMAIN=jenkins-ci.org \
