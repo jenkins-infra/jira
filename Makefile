@@ -44,7 +44,7 @@ stopjira:
 build/jira.cid: build/jira.docker
 	# start JIRA
 	@sudo docker rm jira || true
-	sudo docker run --name jira --cidfile=$@ \
+	sudo docker run -t -i --name jira --cidfile=$@ \
 		--link mariadb:db \
 		--link ldap:cucumber.jenkins-ci.org \
 		-v `pwd`/data:/srv/jira/home \
