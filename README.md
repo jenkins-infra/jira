@@ -26,6 +26,5 @@ The VM consists of three main pieces:
 * `/srv/jira/home`: Persisted portion of the JIRA data, such as attachments
 
 ## TODO
-* Define the way to tweak JVM configuration, such as heap size
 * Javamelody integration (?) mainly in dbconfig.xml
 * oom_adj
