@@ -25,16 +25,8 @@ restoredb:
 
 build/ldap.cid: build
 	@sudo docker rm ldap || true
-	sudo docker run -d \
-			--cidfile=$@ \
-			--name ldap \
-            -e LDAP_DOMAIN=jenkins-ci.org \
-            -e LDAP_ORGANISATION="Jenkins" \
-            -e LDAP_ROOTPASS=s3cr3t \
+	sudo docker run -d --cidfile=$@ --name ldap \
             -p 9389:389 jenkinsciinfra/mock-ldap
-
-restoreldap: build/ldap.cid
-	cat ldap/data.ldif | sudo docker exec -i `cat build/ldap.cid` ldapadd -H ldap://localhost -x -D cn=admin,dc=jenkins-ci,dc=org -w s3cr3t
 
 stopjira:
 	(sudo docker kill jira; sudo docker rm jira) || true
