@@ -1,0 +1,1 @@
+[$issue.componentObjects.iterator().next().name] ($issue.key) $issue.summary

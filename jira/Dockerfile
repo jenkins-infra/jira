@@ -23,6 +23,8 @@ RUN chown -R jira:jira /srv/jira
 
 ADD launch.bash /launch
 ADD server.xml /srv/jira/base/conf/server.xml
+# copy modifications to JIRA classloader
+ADD classes /srv/jira/base/classes
 
 # Install Java. According to https://confluence.atlassian.com/display/JIRA050/Supported+Platforms
 # JIRA 5.0.6 only runs on Java6 and not Java7
