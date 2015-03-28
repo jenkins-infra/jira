@@ -1,6 +1,5 @@
 startjira: stopjira build/jira.cid
 buildjira: build/jira.docker
-buildldap: build/ldap.docker
 startldap: build/ldap.cid
 
 clean:
@@ -32,7 +31,7 @@ build/ldap.cid: build
             -e LDAP_DOMAIN=jenkins-ci.org \
             -e LDAP_ORGANISATION="Jenkins" \
             -e LDAP_ROOTPASS=s3cr3t \
-            -p 9389:389 jenkinsinfra/ldap
+            -p 9389:389 jenkinsciinfra/mock-ldap
 
 restoreldap: build/ldap.cid
 	cat ldap/data.ldif | sudo docker exec -i `cat build/ldap.cid` ldapadd -H ldap://localhost -x -D cn=admin,dc=jenkins-ci,dc=org -w s3cr3t
@@ -53,10 +52,6 @@ build/jira.cid: build/jira.docker
 
 build/jira.docker: jira/Dockerfile jira/launch.bash
 	sudo docker build -t jenkinsinfra/jira jira
-	touch $@
-
-build/ldap.docker: ldap/Dockerfile
-	sudo docker build -t jenkinsinfra/ldap ldap
 	touch $@
 
 data:
