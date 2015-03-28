@@ -18,6 +18,13 @@ then go to `http://localhost:8080/secure/admin/IndexAdmin.jspa` to perform re-in
 
 At this point your JIRA is up & running, and you should be able to navigate around.
 
+## The way JIRA VM is put together
+The VM consists of three main pieces:
+
+* `/srv/jira/base`: Upstream JIRA image. Ideally we don't want to touch this at all, unless we absolutely have to.
+* `/srv/jira/site`: Container local customizations to JIRA image. This also acts as `$CATALINA_BASE`
+* `/srv/jira/home`: Persisted portion of the JIRA data, such as attachments
+
 ## TODO
 * Define the way to tweak JVM configuration, such as heap size
 * Javamelody integration (?) mainly in dbconfig.xml

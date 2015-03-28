@@ -37,4 +37,5 @@ if [ -n "$DATABASE_URL" ]; then
 END
 fi
 
+export CATALINA_BASE=/srv/jira/site
 /srv/jira/base/bin/start-jira.sh -fg
