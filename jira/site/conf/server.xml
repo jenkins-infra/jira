@@ -50,9 +50,9 @@
 
         <Connector port="8080"
 
-                   proxyName="issues.jenkins-ci.org"
-                   proxyPort="443"
-                   scheme="https"
+                   proxyName="@@PROXY_NAME@@"
+                   proxyPort="@@PROXY_PORT@@"
+                   scheme="@@PROXY_SCHEME@@"
 
                    maxThreads="150"
                    minSpareThreads="25"

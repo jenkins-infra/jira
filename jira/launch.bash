@@ -37,5 +37,9 @@ if [ -n "$DATABASE_URL" ]; then
 END
 fi
 
+# replace front-end reverse proxy setting in server.xml
+cat /srv/jira/site/conf/server.xml | sed -e "s,@@PROXY_NAME@@,$PROXY_NAME," -e "s,@@PROXY_PORT@@,$PROXY_PORT," -e "s,@@PROXY_SCHEME@@,$PROXY_SCHEME," > /tmp/server.xml
+cp /tmp/server.xml /srv/jira/site/conf/server.xml
+
 export CATALINA_BASE=/srv/jira/site
 /srv/jira/base/bin/start-jira.sh -fg

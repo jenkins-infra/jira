@@ -34,6 +34,13 @@ ADD site /srv/jira/site
 
 RUN chown -R jira:jira /srv/jira
 
+
+# The componentalized URL that JIRA is going to be referenced as.
+# In production these names have to change to issues.jenkins-ci.org, 443, and https.
+ENV PROXY_NAME localhost
+ENV PROXY_PORT 8080
+ENV PROXY_SCHEME http
+
 WORKDIR /srv/jira
 VOLUME ["/srv/jira/home"]
 EXPOSE 8080
