@@ -4,7 +4,7 @@ set -o errexit
 . /usr/local/share/atlassian/common.bash
 
 sudo own-volume
-rm -f /opt/jira/home/.jira-home.lock
+rm -f /srv/jira/home/.jira-home.lock
 
 if [ -n "$DATABASE_URL" ]; then
   extract_database_url "$DATABASE_URL" DB /srv/jira/base/lib
