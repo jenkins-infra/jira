@@ -38,6 +38,9 @@ build/jira.cid: build/jira.docker
 	sudo docker run -t -i --name jira --cidfile=$@ \
 		--link mariadb:db \
 		--link ldap:cucumber.jenkins-ci.org \
+		-e PROXY_NAME=localhost \
+		-e PROXY_PORT=8080 \
+		-e PROXY_SCHEME=http \
 		-v `pwd`/data:/srv/jira/home \
 		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb jenkinsinfra/jira
 
