@@ -19,3 +19,6 @@ then go to `http://localhost:8080/secure/admin/IndexAdmin.jspa` to perform re-in
 At this point your JIRA is up & running, and you should be able to navigate around.
 
 ## TODO
+* Define the way to tweak JVM configuration, such as heap size
+* Javamelody integration (?) mainly in dbconfig.xml
+* oom_adj
