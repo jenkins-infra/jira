@@ -3,18 +3,26 @@
 FROM durdn/atlassian-base
 MAINTAINER Jenkins Infra team <infra@lists.jenkins-ci.org>
 
-# Install Jira
 
+#
+# When using a different version of JIRA, also be sure to tweak server.xml.
+# To do a proper merge,
+#   1. switch to the 'import' branch
+#   2. overwrite jira/server.xml by the prestine master from JIRA distribution
+#   3. commit the change to the 'import' branch
+#   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
+#
 ENV JIRA_VERSION 5.0.6
+
+
 RUN /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --shell /bin/bash jira
 RUN mkdir -p /srv/jira/base /srv/jira/home
 RUN curl -Lks http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${JIRA_VERSION}.tar.gz -o /root/jira.tar.gz; tar zxf /root/jira.tar.gz --strip=1 -C /srv/jira/base; rm /root/jira.tar.gz
 RUN echo "jira.home = /srv/jira/home" > /srv/jira/base/atlassian-jira/WEB-INF/classes/jira-application.properties
 RUN chown -R jira:jira /srv/jira
-RUN mv /srv/jira/base/conf/server.xml /srv/jira/base/conf/server-backup.xml
 
-ENV CONTEXT_PATH ROOT
 ADD launch.bash /launch
+ADD server.xml /srv/jira/base/conf/server.xml
 
 # Install Java. According to https://confluence.atlassian.com/display/JIRA050/Supported+Platforms
 # JIRA 5.0.6 only runs on Java6 and not Java7

@@ -6,15 +6,6 @@ set -o errexit
 sudo own-volume
 rm -f /opt/jira/home/.jira-home.lock
 
-if [ "$CONTEXT_PATH" == "ROOT" -o -z "$CONTEXT_PATH" ]; then
-  CONTEXT_PATH=
-else
-  CONTEXT_PATH="/$CONTEXT_PATH"
-fi
-
-cd /srv/jira/base
-xmlstarlet ed -u '//Context/@path' -v "$CONTEXT_PATH" conf/server-backup.xml > conf/server.xml
-
 if [ -n "$DATABASE_URL" ]; then
   extract_database_url "$DATABASE_URL" DB /srv/jira/base/lib
   DB_JDBC_URL="$(xmlstarlet esc "$DB_JDBC_URL")"

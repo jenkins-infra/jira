@@ -50,6 +50,10 @@
 
         <Connector port="8080"
 
+                   proxyName="issues.jenkins-ci.org"
+                   proxyPort="443"
+                   scheme="https"
+
                    maxThreads="150"
                    minSpareThreads="25"
                    maxSpareThreads="75"
@@ -131,6 +135,13 @@
                     <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
                               factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
                     <Manager pathname=""/>
+
+                    <!-- allow /srv/jira/base/classes to override -->
+                    <Loader
+                            className="org.apache.catalina.loader.VirtualWebappLoader"
+                            searchExternalFirst="true"
+                            virtualClasspath="${catalina.base}/classes" />
+
                 </Context>
 
             </Host>
@@ -163,9 +174,10 @@
                 ====================================================================================
 
             -->
+            <!-- no access log in container
             <Valve className="org.apache.catalina.valves.AccessLogValve" resolveHosts="false"
                    pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%q %H&quot; %s %b %D &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
-
+            -->
         </Engine>
     </Service>
 </Server>
