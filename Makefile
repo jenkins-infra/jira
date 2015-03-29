@@ -14,7 +14,7 @@ clean:
 
 startdb:
 	# start a database instance
-	sudo docker run --name mariadb -d -p 3306:3306 \
+	docker run --name mariadb -d -p 3306:3306 \
 		-e MYSQL_ROOT_PASSWORD=s3cr3t \
 		-e MYSQL_USER=jira \
 		-e MYSQL_PASSWORD=raji \
@@ -23,19 +23,19 @@ startdb:
     
 restoredb:
 	# restore dump from DB
-	gunzip -c backup.db.gz | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
+	gunzip -c backup.db.gz | docker exec -i mariadb mysql --user=jira --password=raji jiradb
 	# tweak database for test
-	cat tweak.sql | sudo docker exec -i mariadb mysql --user=jira --password=raji jiradb
+	cat tweak.sql | docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
 startldap:
-	@sudo docker rm ldap || true
-	sudo docker run -d --name ldap \
+	@docker rm ldap || true
+	docker run -d --name ldap \
             -p 9389:389 jenkinsciinfra/mock-ldap
 
 run: build/jira.docker
 	# start JIRA
-	@sudo docker rm jira || true
-	sudo docker run -t -i --name jira \
+	@docker rm jira || true
+	docker run -t -i --name jira \
 		--link mariadb:db \
 		--link ldap:cucumber.jenkins-ci.org \
 		-e PROXY_NAME=localhost \
@@ -47,7 +47,7 @@ run: build/jira.docker
 
 build/jira.docker: jira/Dockerfile jira/launch.bash $(shell find jira/site/ -type f)
 	@mkdir build || true
-	sudo docker build -t ${IMAGENAME} jira
+	docker build -t ${IMAGENAME} jira
 	touch $@
 
 data:
