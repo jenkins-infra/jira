@@ -1,6 +1,6 @@
 # Basics
 #
-FROM durdn/atlassian-base
+FROM jenkinsciinfra/atlassian-base:build2
 MAINTAINER Jenkins Infra team <infra@lists.jenkins-ci.org>
 
 
@@ -28,6 +28,9 @@ RUN /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --sh
 RUN mkdir -p /srv/jira/base /srv/jira/site /srv/jira/home
 RUN curl -Lks http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${JIRA_VERSION}.tar.gz -o /root/jira.tar.gz; tar zxf /root/jira.tar.gz --strip=1 -C /srv/jira/base; rm /root/jira.tar.gz
 RUN echo "jira.home = /srv/jira/home" > /srv/jira/base/atlassian-jira/WEB-INF/classes/jira-application.properties
+
+# Allow the user to start cron
+RUN echo "wiki  ALL=(ALL) NOPASSWD: /usr/sbin/cron" >> /etc/sudoers
 
 ADD launch.bash /launch
 ADD site /srv/jira/site

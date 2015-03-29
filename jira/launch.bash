@@ -1,6 +1,10 @@
 #!/bin/bash
 set -o errexit
 
+# install cron
+crontab ~/site/cron.conf
+sudo cron -f &
+
 . /usr/local/share/atlassian/common.bash
 
 sudo own-volume
