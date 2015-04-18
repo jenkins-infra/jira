@@ -24,13 +24,13 @@ RUN \
   rm -rf /var/lib/apt/lists/* && \
   rm -rf /var/cache/oracle-jdk6-installer
 
-RUN /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --shell /bin/bash jira
+RUN /usr/sbin/groupadd --gid 2001 jira; /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --uid 2001 --gid jira --shell /bin/bash jira
 RUN mkdir -p /srv/jira/base /srv/jira/site /srv/jira/home
 RUN curl -Lks http://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-${JIRA_VERSION}.tar.gz -o /root/jira.tar.gz; tar zxf /root/jira.tar.gz --strip=1 -C /srv/jira/base; rm /root/jira.tar.gz
 RUN echo "jira.home = /srv/jira/home" > /srv/jira/base/atlassian-jira/WEB-INF/classes/jira-application.properties
 
 # Allow the user to start cron
-RUN echo "wiki  ALL=(ALL) NOPASSWD: /usr/sbin/cron" >> /etc/sudoers
+RUN echo "jira  ALL=(ALL) NOPASSWD: /usr/sbin/cron" >> /etc/sudoers
 
 ADD launch.bash /launch
 ADD site /srv/jira/site
