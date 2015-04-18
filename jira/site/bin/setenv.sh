@@ -5,4 +5,4 @@
 
 # tweak JVM heap settings to our liking. Remove what JIRA set, and insert our own
 export JAVA_OPTS="$(echo $JAVA_OPTS | sed -e 's/-Xms[^ ]*//' -e 's/-Xmx[^ ]*//' -e 's/-XX:MaxPermSize=[^ ]*//')"
-export JAVA_OPTS="-XX:MaxPermSize=256m -Xms512m -Xmx768m $JAVA_OPTS"
+export JAVA_OPTS="-XX:MaxPermSize=256m -Xms512m -Xmx1024m $JAVA_OPTS"
