@@ -46,7 +46,7 @@ run: build/jira.docker
 	@docker rm jira > /dev/null 2>&1 || true
 	docker run -t -i --name jira \
 		--link mariadb:db \
-		--link ldap:cucumber.jenkins-ci.org \
+		--link ldap:ldap.jenkins-ci.org \
 		-e PROXY_NAME=localhost \
 		-e PROXY_PORT=8080 \
 		-e PROXY_SCHEME=http \
