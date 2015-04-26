@@ -20,6 +20,9 @@ startdb:
 		-e MYSQL_PASSWORD=raji \
 		-e MYSQL_DATABASE=jiradb \
 		mariadb
+	#echo "Waiting for MariaDB to come up"
+	sleep 15
+	echo "SET GLOBAL binlog_format = 'ROW';" | docker exec -i mariadb mysql --user=root --password=s3cr3t jiradb
     
 restoredb:
 	# restore dump from DB
