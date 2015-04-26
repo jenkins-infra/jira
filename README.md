@@ -29,7 +29,7 @@ security vulnerabilities, and so on. So it shouldn't be passed around casually:
 * retrieve database dump as `backup.db.gz`
 * `make restoredb` to fill DB with a copy of production data
 * retrieve JIRA_HOME dump as `backup.fs.gz`
-* 'tar xvzf backup.fs.gz` in the root of this Git repository
+* 1make restorefs` to fill ./data with a copy of production data
 
 If you omit the above steps, the JIRA container will start empty.
 

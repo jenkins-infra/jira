@@ -27,6 +27,12 @@ restoredb:
 	# tweak database for test
 	cat tweak.sql | docker exec -i mariadb mysql --user=jira --password=raji jiradb
 
+restorefs:
+	[ ! -d data ] || sudo rm -rf data
+	mkdir data
+	cd data; tar xvzf ../backup.fs.gz
+	sudo chown -R 2001:2001 data
+
 startldap:
 	@docker rm ldap || true
 	docker run -d --name ldap \
@@ -34,7 +40,7 @@ startldap:
 
 run: build/jira.docker
 	# start JIRA
-	@docker rm jira || true
+	@docker rm jira > /dev/null 2>&1 || true
 	docker run -t -i --name jira \
 		--link mariadb:db \
 		--link ldap:cucumber.jenkins-ci.org \
