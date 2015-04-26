@@ -33,8 +33,6 @@
     <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
     <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
     <Listener className="org.apache.catalina.core.JasperListener"/>
-    <!-- JMX Support for the Tomcat server. Documentation at /docs/non-existent.html -->
-    <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener"/>
     <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
 
     <!-- Global JNDI resources
@@ -52,7 +50,6 @@
 
                    maxThreads="150"
                    minSpareThreads="25"
-                   maxSpareThreads="75"
                    connectionTimeout="20000"
 
                    enableLookups="false"
@@ -90,7 +87,7 @@
         <!--
             <Connector port="8443" protocol="org.apache.coyote.http11.Http11Protocol"
               maxHttpHeaderSize="8192" SSLEnabled="true"
-              maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+              maxThreads="150" minSpareThreads="25"
               enableLookups="false" disableUploadTimeout="true"
               acceptCount="100" scheme="https" secure="true"
               clientAuth="false" sslProtocol="TLS" useBodyEncodingForURI="true"/>
