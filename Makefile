@@ -50,6 +50,7 @@ run: build/jira.docker
 		-e PROXY_NAME=localhost \
 		-e PROXY_PORT=8080 \
 		-e PROXY_SCHEME=http \
+		-e JAVA_OPTS="-Xmx261m -Xms250m" \
 		-v `pwd`/data:/srv/jira/home \
 		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb ${IMAGENAME}
 
