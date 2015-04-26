@@ -12,7 +12,7 @@ MAINTAINER Jenkins Infra team <infra@lists.jenkins-ci.org>
 #   3. commit the change to the 'import' branch
 #   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
 #
-ENV JIRA_VERSION 5.0.6
+ENV JIRA_VERSION 6.4.2
 
 # Install Java. According to https://confluence.atlassian.com/display/JIRA050/Supported+Platforms
 # JIRA 5.0.6 only runs on Java6 and not Java7
