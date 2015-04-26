@@ -14,15 +14,15 @@ MAINTAINER Jenkins Infra team <infra@lists.jenkins-ci.org>
 #
 ENV JIRA_VERSION 6.4.2
 
-# Install Java. According to https://confluence.atlassian.com/display/JIRA050/Supported+Platforms
-# JIRA 5.0.6 only runs on Java6 and not Java7
+# Install Java. According to https://confluence.atlassian.com/display/JIRA/Supported+Platforms
+# Java7 & Java8 are supported, except 8u25 and 8u31
 RUN \
   echo oracle-java6-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   add-apt-repository -y ppa:webupd8team/java && \
   apt-get update && \
-  apt-get install -y oracle-java6-installer && \
+  apt-get install -y oracle-java8-installer && \
   rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk6-installer
+  rm -rf /var/cache/oracle-jdk8-installer
 
 RUN /usr/sbin/groupadd --gid 2001 jira; /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --uid 2001 --gid jira --shell /bin/bash jira
 RUN mkdir -p /srv/jira/base /srv/jira/site /srv/jira/home
