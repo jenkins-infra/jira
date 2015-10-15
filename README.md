@@ -43,6 +43,19 @@ Two valid users exist in mock LDAP container. 'kohsuke' and 'alice'.
 To make changes to the JIRA container, press Ctrl+C to kill JIRA container,
 make edits, and run `make run` again.
 
+### Getting database & JIRA Home dumps
+Here is the script I use to get the necessary dump out of JIRA:
+```
+ssh jira@issues.jenkins-ci.org "mysqldump hudson_jira | gzip" > backup.db.gz
+
+mkdir copy || true
+pushd copy
+  rsync -avz --exclude=export '--exclude=*.log' --exclude=caches --exclude=index --exclude=log --exclude=tmp  jira@issues.jenkins-ci.org:home/ .
+  tar cvzf ../backup.fs.gz .
+popd
+```
+
+
 ## TODO
 * Javamelody integration (?) mainly in dbconfig.xml
 * oom_adj
