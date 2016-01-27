@@ -19,7 +19,7 @@ node('docker') {
 
 
     stage 'Build'
-    def whale = docker.build("${imageName}:${imageTag}")
+    def whale = docker.build("${imageName}:${imageTag}", 'jira')
 
     stage 'Deploy'
     whale.push()
