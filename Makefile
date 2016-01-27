@@ -6,9 +6,6 @@ image: build/jira.docker
 tag: image
 	docker tag ${IMAGENAME} ${IMAGENAME}:${TAG}
 
-push :
-	docker push ${IMAGENAME}
-
 clean:
 	rm -rf build
 
@@ -23,7 +20,7 @@ startdb:
 	#echo "Waiting for MariaDB to come up"
 	sleep 15
 	echo "SET GLOBAL binlog_format = 'ROW';" | docker exec -i mariadb mysql --user=root --password=s3cr3t jiradb
-    
+
 restoredb:
 	# restore dump from DB
 	gunzip -c backup.db.gz | docker exec -i mariadb mysql --user=jira --password=raji jiradb
