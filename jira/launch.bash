@@ -46,4 +46,5 @@ cat /srv/jira/site/conf/server.xml | sed -e "s,@@PROXY_NAME@@,$PROXY_NAME," -e "
 cp /tmp/server.xml /srv/jira/site/conf/server.xml
 
 export CATALINA_BASE=/srv/jira/site
+export JAVA_OPTS="-Datlassian.plugins.enable.wait=300"
 /srv/jira/base/bin/start-jira.sh -fg

@@ -28,12 +28,16 @@
   limitations under the License.
 -->
 <Server port="8005" shutdown="SHUTDOWN">
-
+    <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+    <!-- Security listener. Documentation at /docs/config/listeners.html
+    <Listener className="org.apache.catalina.security.SecurityListener" />
+    -->
     <!--APR library loader. Documentation at /docs/apr.html -->
-    <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on"/>
-    <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
-    <Listener className="org.apache.catalina.core.JasperListener"/>
-    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener"/>
+    <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+    <!-- Prevent memory leaks due to use of particular java/javax APIs-->
+    <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+    <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+    <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
 
     <!-- Global JNDI resources
          Documentation at /docs/jndi-resources-howto.html
@@ -47,7 +51,6 @@
     <Service name="Catalina">
 
         <Connector port="8080"
-
                    proxyName="@@PROXY_NAME@@"
                    proxyPort="@@PROXY_PORT@@"
                    scheme="@@PROXY_SCHEME@@"
@@ -132,13 +135,6 @@
                     <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
                               factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
                     <Manager pathname=""/>
-
-                    <!-- allow /srv/jira/base/classes to override -->
-                    <Loader
-                            className="org.apache.catalina.loader.VirtualWebappLoader"
-                            searchExternalFirst="true"
-                            virtualClasspath="${catalina.base}/classes" />
-
                 </Context>
 
             </Host>
@@ -171,10 +167,9 @@
                 ====================================================================================
 
             -->
-            <!-- no access log in container
-            <Valve className="org.apache.catalina.valves.AccessLogValve" resolveHosts="false"
+            <Valve className="org.apache.catalina.valves.AccessLogValve"
                    pattern="%a %{jira.request.id}r %{jira.request.username}r %t &quot;%m %U%q %H&quot; %s %b %D &quot;%{Referer}i&quot; &quot;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;"/>
-            -->
+
         </Engine>
     </Service>
 </Server>
