@@ -92,7 +92,7 @@
         ====================================================================================
         -->
         <!--
-            <Connector port="8443" protocol="org.apache.coyote.http11.Http11Protocol"
+            <Connector port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol"
               maxHttpHeaderSize="8192" SSLEnabled="true"
               maxThreads="150" minSpareThreads="25"
               enableLookups="false" disableUploadTimeout="true"
