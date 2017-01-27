@@ -22,5 +22,10 @@ node('docker') {
     def whale = docker.build("${imageName}:${imageTag}", 'jira')
 
     stage 'Deploy'
-    whale.push()
+    if (infra.isTrusted()) {
+        whale.push()
+    }
+    else {
+        echo 'Cannot publish containers from this instance'
+    }
 }
