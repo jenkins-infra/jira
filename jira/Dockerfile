@@ -12,7 +12,7 @@ MAINTAINER Jenkins Infra team <infra@lists.jenkins-ci.org>
 #   3. commit the change to the 'import' branch
 #   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
 #
-ENV JIRA_VERSION 7.1.7
+ENV JIRA_VERSION 7.3.0
 
 # Install Java. According to https://confluence.atlassian.com/display/JIRA/Supported+Platforms
 # Java7 & Java8 are supported, except 8u25 and 8u31
@@ -26,7 +26,7 @@ RUN \
 
 RUN /usr/sbin/groupadd --gid 2001 jira; /usr/sbin/useradd --create-home --home-dir /srv/jira --groups atlassian --uid 2001 --gid jira --shell /bin/bash jira
 RUN mkdir -p /srv/jira/base /srv/jira/site /srv/jira/home
-RUN curl -Lks https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}-jira-${JIRA_VERSION}.tar.gz -o /root/jira.tar.gz; tar zxf /root/jira.tar.gz --strip=1 -C /srv/jira/base; rm /root/jira.tar.gz
+RUN curl -Lks https://www.atlassian.com/software/jira/downloads/binary/atlassian-jira-software-${JIRA_VERSION}.tar.gz -o /root/jira.tar.gz; tar zxf /root/jira.tar.gz --strip=1 -C /srv/jira/base; rm /root/jira.tar.gz
 RUN echo "jira.home = /srv/jira/home" > /srv/jira/base/atlassian-jira/WEB-INF/classes/jira-application.properties
 
 # Allow the user to start cron
