@@ -1,9 +1,10 @@
+.PHONY: build tag
 IMAGENAME=jenkinsciinfra/jira
 TAG=$(shell date '+%Y%m%d_%H%M%S')
 
-image: build/jira.docker
+build: build/jira.docker
 
-tag: image
+tag: build
 	docker tag ${IMAGENAME} ${IMAGENAME}:${TAG}
 
 clean:
