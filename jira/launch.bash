@@ -3,11 +3,10 @@ set -o errexit
 
 # install cron
 crontab ~/site/cron.conf
-sudo cron -f &
+sudo /usr/sbin/cron -f &
 
 . /usr/local/share/atlassian/common.bash
 
-sudo own-volume
 rm -f /srv/jira/home/.jira-home.lock
 
 if [ -n "$DATABASE_URL" ]; then
