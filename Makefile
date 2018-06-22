@@ -1,9 +1,10 @@
+.PHONY: build tag
 IMAGENAME=jenkinsciinfra/jira
 TAG=$(shell date '+%Y%m%d_%H%M%S')
 
-image: build/jira.docker
+build: build/jira.docker
 
-tag: image
+tag: build
 	docker tag ${IMAGENAME} ${IMAGENAME}:${TAG}
 
 clean:
@@ -16,7 +17,7 @@ startdb:
 		-e MYSQL_USER=jira \
 		-e MYSQL_PASSWORD=raji \
 		-e MYSQL_DATABASE=jiradb \
-		mariadb
+		mysql:5.5 --max_allowed_packet 128mb --collation-server=utf8_unicode_ci
 	#echo "Waiting for MariaDB to come up"
 	sleep 15
 	echo "SET GLOBAL binlog_format = 'ROW';" | docker exec -i mariadb mysql --user=root --password=s3cr3t jiradb
@@ -47,15 +48,14 @@ run: build/jira.docker
 		-e PROXY_NAME=localhost \
 		-e PROXY_PORT=8080 \
 		-e PROXY_SCHEME=http \
-		-e JAVA_OPTS="-Xmx261m -Xms250m" \
-		-v `pwd`/data:/srv/jira/home \
+		-e JAVA_OPTS="-Xmx2048m -Xms2048m" \
+		-v `pwd`/data/home:/srv/jira/home \
 		-p 8080:8080 -e DATABASE_URL=mysql://jira:raji@db/jiradb ${IMAGENAME}
 
 
 build/jira.docker: jira/Dockerfile jira/launch.bash $(shell find jira/site/ -type f)
 	@mkdir build || true
 	docker build -t ${IMAGENAME} jira
-	touch $@
 
 data:
 	# extract dataset
