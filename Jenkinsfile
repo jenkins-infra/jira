@@ -1,31 +1,31 @@
-#!groovy
+#!/usr/bin/env groovy
 
 def imageName = 'jenkinsciinfra/jira'
 
-/* Only keep the 10 most recent builds. */
-properties([[$class: 'BuildDiscarderProperty',
-                strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
+properties([
+    buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '5')),
+    pipelineTriggers([[$class:"SCMTrigger", scmpoll_spec:"H/15 * * * *"]]),
+])
 
 node('docker') {
-    checkout scm
-
-    /* Using this hack right now to grab the appropriate abbreviated SHA1 of
-     * our current build's commit. We must do this because right now I cannot
-     * refer to `env.GIT_COMMIT` in Pipeline scripts
-     */
-    sh 'git rev-parse HEAD > GIT_COMMIT'
-    shortCommit = readFile('GIT_COMMIT').take(6)
-    def imageTag = "build${shortCommit}"
-
-
-    stage 'Build'
-    def whale = docker.build("${imageName}:${imageTag}", 'jira')
-
-    stage 'Deploy'
-    if (infra.isTrusted()) {
-        whale.push()
+    def container
+    stage('Build Container') {
+        timestamps {
+            checkout scm
+            sh 'git rev-parse HEAD > GIT_COMMIT'
+            shortCommit = readFile('GIT_COMMIT').take(6)
+            def imageTag = "${env.BUILD_ID}-build${shortCommit}"
+            echo "Creating the container ${imageName}:${imageTag}"
+            container = docker.build("${imageName}:${imageTag}", 'jira')
+        }
     }
-    else {
-        echo 'Cannot publish containers from this instance'
+
+    /* Assuming we're not inside of a pull request or multibranch pipeline */
+    if (!(env.CHANGE_ID || env.BRANCH_NAME)) {
+        stage('Publish container') {
+            infra.withDockerCredentials {
+                timestamps { container.push() }
+            }
+        }
     }
 }
