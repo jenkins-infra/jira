@@ -12,7 +12,7 @@ LABEL \
 #   3. commit the change to the 'import' branch
 #   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
 #
-ENV JIRA_VERSION 7.10.1
+ENV JIRA_VERSION 7.11.2
 
 # Install Java. According to https://confluence.atlassian.com/display/JIRA/Supported+Platforms
 # Java7 & Java8 are supported, except 8u25 and 8u31
