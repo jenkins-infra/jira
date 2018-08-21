@@ -17,7 +17,7 @@ startdb:
 		-e MYSQL_USER=jira \
 		-e MYSQL_PASSWORD=raji \
 		-e MYSQL_DATABASE=jiradb \
-		mysql:5.5 --max_allowed_packet 128mb --collation-server=utf8_unicode_ci
+		mysql:5.5 --max_allowed_packet 256mb --collation-server=utf8_bin --character-set-server=utf8
 	#echo "Waiting for MariaDB to come up"
 	sleep 15
 	echo "SET GLOBAL binlog_format = 'ROW';" | docker exec -i mariadb mysql --user=root --password=s3cr3t jiradb
