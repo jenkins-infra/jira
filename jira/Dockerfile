@@ -1,6 +1,6 @@
 # Basics
 #
-FROM adoptopenjdk:11-jre-hotspot
+FROM adoptopenjdk:8-jre-hotspot
 LABEL \
   maintainer="Jenkins Infra team <infra@lists.jenkins-ci.org>"
 
