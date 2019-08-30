@@ -1,6 +1,6 @@
 # Basics
 #
-FROM adoptopenjdk:8-jre-hotspot
+FROM adoptopenjdk:11-jre-hotspot
 LABEL \
   maintainer="Jenkins Infra team <infra@lists.jenkins-ci.org>"
 
@@ -12,7 +12,7 @@ LABEL \
 #   3. commit the change to the 'import' branch
 #   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
 #
-ENV JIRA_VERSION 7.11.2
+ENV JIRA_VERSION 8.3.3
 
 RUN \
   apt-get update -y && \
@@ -22,7 +22,7 @@ RUN \
     xmlstarlet \
     sudo && \
   rm -rf /var/lib/apt/lists/*
-  
+
 RUN \
   /usr/sbin/groupadd --gid 1000 atlassian;\
   /usr/sbin/groupadd --gid 2001 jira;\
