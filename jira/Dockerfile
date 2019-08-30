@@ -12,7 +12,7 @@ LABEL \
 #   3. commit the change to the 'import' branch
 #   4. switch to the 'master' branch and merge the 'import' branch, while resolving the conflict if any.
 #
-ENV JIRA_VERSION 8.3.3
+ENV JIRA_VERSION 7.13.6
 
 RUN \
   apt-get update -y && \
