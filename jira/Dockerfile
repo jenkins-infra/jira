@@ -1,6 +1,6 @@
 # Basics
 #
-FROM ubuntu:18.04
+FROM adoptopenjdk:8-jre-hotspot
 LABEL \
   maintainer="Jenkins Infra team <infra@lists.jenkins-ci.org>"
 
@@ -14,22 +14,15 @@ LABEL \
 #
 ENV JIRA_VERSION 7.11.2
 
-# Install Java. According to https://confluence.atlassian.com/display/JIRA/Supported+Platforms
-# Java7 & Java8 are supported, except 8u25 and 8u31
 RUN \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   apt-get update -y && \
   apt-get install -y \
     software-properties-common \
     curl \
     xmlstarlet \
     sudo && \
-  add-apt-repository -y ppa:webupd8team/java && \
-  apt-get update && \
-  apt-get install -y oracle-java8-installer && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk8-installer
-
+  rm -rf /var/lib/apt/lists/*
+  
 RUN \
   /usr/sbin/groupadd --gid 1000 atlassian;\
   /usr/sbin/groupadd --gid 2001 jira;\
