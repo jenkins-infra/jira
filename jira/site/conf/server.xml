@@ -55,6 +55,9 @@
                    proxyPort="@@PROXY_PORT@@"
                    scheme="@@PROXY_SCHEME@@"
 
+                   relaxedPathChars="[]|"
+                   relaxedQueryChars="[]|{}^&#x5c;&#x60;&quot;&lt;&gt;"
+
                    maxThreads="150"
                    minSpareThreads="25"
                    connectionTimeout="20000"
