@@ -20,6 +20,7 @@ RUN \
     software-properties-common \
     curl \
     xmlstarlet \
+    fontconfig \
     sudo && \
   rm -rf /var/lib/apt/lists/*
 
