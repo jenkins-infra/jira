@@ -1,5 +1,6 @@
 # JIRA Container for jenkins-ci.org
-[![Build Status](http://ci.jenkins-ci.org/buildStatus/icon?job=infra_jira)](http://ci.jenkins-ci.org/view/Infrastructure/job/infra_jira/)
+
+[Repository Archived] If you want this repository to be updated, please contact us with the instructions at https://www.jenkins.io/chat/#jenkins-infra.
 
 This container defines JIRA behind issues.jenkins-ci.org.
 The container consists of three main pieces:
